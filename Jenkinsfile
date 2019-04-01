@@ -110,6 +110,34 @@ pipeline {
                         }
                     }
                 }
+                stage('Test On Firefox') {
+                    steps {
+                        dir("tests/ui.AcceptanceTest/") {
+                            script {
+                                def workspace = pwd()
+                                def myVar = "${env.BASE_PATH}"
+
+                                def outter_docker_workspace = workspace.replace("/var/jenkins_home",myVar)
+
+                                sh "docker run --rm -v $outter_docker_workspace/firefox/reports:/opt/robotframework/reports -v $outter_docker_workspace:/opt/robotframework/tests -e ROBOT_OPTIONS=\"--exclude 'Not Implement' --variable URL:http://docker.for.mac.localhost --variable BROWSER:firefox\" siamchamnankit/sck-robot-framework"
+                            }
+                        }                        
+                    }
+                }
+                stage('Test On Safari') {
+                    steps {
+                        dir("tests/ui.AcceptanceTest/") {
+                            script {
+                                def workspace = pwd()
+                                def myVar = "${env.BASE_PATH}"
+
+                                def outter_docker_workspace = workspace.replace("/var/jenkins_home",myVar)
+
+                                sh "docker run --rm -v $outter_docker_workspace/safari/reports:/opt/robotframework/reports -v $outter_docker_workspace:/opt/robotframework/tests -e ROBOT_OPTIONS=\"--exclude 'Not Implement' --variable URL:http://docker.for.mac.localhost --variable BROWSER:firefox\" siamchamnankit/sck-robot-framework"
+                            }
+                        }                        
+                    }
+                }
             }
         }
         stage('UAT Deploy') {
