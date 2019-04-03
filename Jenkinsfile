@@ -33,7 +33,6 @@ pipeline {
                 sh 'docker build -t workshop-shoppingcart-mysql . -f Dockerfile_mysql'
 
                 echo '## Run container'
-                sh 'docker stop workshop-shoppingcart-mysql'
                 sh 'docker run --rm -d --name=workshop-shoppingcart-mysql -p 3306:3306 workshop-shoppingcart-mysql'
 
                 sh 'sleep 15'
@@ -75,8 +74,7 @@ pipeline {
                 }
 
                 echo '## Run container'
-                sh 'docker stop workshop-shoppingcart-api'
-
+                
                 sh 'docker run --rm -d --name workshop-shoppingcart-api -p 5001:5001 -e ConnectionString="server=docker.for.mac.localhost;userid=root;password=1234;database=workshop_shoppingcart;convert zero datetime=True;CHARSET=utf8;" workshop-shoppingcart-api'
 
                 echo '# Install UI'
@@ -88,7 +86,6 @@ pipeline {
 
 
                 echo '## Run container'
-                sh 'docker stop workshop-shoppingcart-ui'
                 sh 'docker run --rm -d --name workshop-shoppingcart-ui -p 80:80 workshop-shoppingcart-ui'
 
                 echo '# Run Robot Framework'
@@ -139,6 +136,18 @@ pipeline {
                     }
                 }
             }
+        }
+        stage('Stop Integrate Test Environment') {
+            steps {
+                echo 'Stop Integrate Testing....'
+                echo '# Stop UI Server'
+                sh 'docker stop workshop-shoppingcart-ui'
+                echo '# Stop API Server'
+                sh 'docker stop workshop-shoppingcart-api'
+                echo '# Stop Database Server'
+                sh 'docker stop workshop-shoppingcart-mysql'
+            }
+
         }
         stage('UAT Deploy') {
             steps {
