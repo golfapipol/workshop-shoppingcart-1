@@ -66,7 +66,7 @@ docker run --name workshop-shoppingcart-ui -p 80:80 workshop-shoppingcart-ui
 cd tests/ui.AcceptanceTest/
 
 ## Localhost
-pybot --variable URL:http://localhost .
+pybot --exclude "Not Implement" --variable URL:http://localhost .
 
 ## Run Robot on Docker
 
