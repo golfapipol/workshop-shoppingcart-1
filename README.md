@@ -28,7 +28,7 @@ docker run --rm -e RUNNING_PROJECT=./tests/api.IntegrationTest/api.IntegrationTe
 docker build -t workshop-shoppingcart-mysql . -f Dockerfile_mysql
 
 ## Run container
-docker run --name=workshop-shoppingcart-mysql -p 3306:3306 workshop-shoppingcart-mysql
+docker run --rm --name=workshop-shoppingcart-mysql -p 3306:3306 workshop-shoppingcart-mysql
 
 # Data Migration into Mysql
 ## run docker liquibase's image to migrate data from changelog.yml
