@@ -118,3 +118,6 @@ ${BROWSER}    chrome
 
 ปิดหน้าเบราเซอร์
     Close Browser
+
+เปิดให้ดู Step ละ (วินาที)
+    Set Selenium Speed    0.1
