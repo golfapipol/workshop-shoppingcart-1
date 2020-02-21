@@ -33,7 +33,12 @@ docker run --rm --name=workshop-shoppingcart-mysql -p 3306:3306 workshop-shoppin
 # Data Migration into Mysql
 ## run docker liquibase's image to migrate data from changelog.yml
 
-docker run --rm -v $(pwd)/data:/liquibase/ -e "LIQUIBASE_URL=jdbc:mysql://docker.for.mac.localhost/workshop_shoppingcart" -e "LIQUIBASE_USERNAME=root" -e "LIQUIBASE_PASSWORD=1234" -e "LIQUIBASE_CHANGELOG=changelog.yml" webdevops/liquibase:mysql update
+### Production 
+docker run --rm -v $(pwd)/data/Production:/liquibase/ -e "LIQUIBASE_URL=jdbc:mysql://docker.for.mac.localhost/workshop_shoppingcart" -e "LIQUIBASE_USERNAME=root" -e "LIQUIBASE_PASSWORD=1234" -e "LIQUIBASE_CHANGELOG=changelog.yml" webdevops/liquibase:mysql update
+
+### UAT
+docker run --rm -v $(pwd)/data/UserAcceptanceTest:/liquibase/ -e "LIQUIBASE_URL=jdbc:mysql://docker.for.mac.localhost/workshop_shoppingcart" -e "LIQUIBASE_USERNAME=root" -e "LIQUIBASE_PASSWORD=1234" -e "LIQUIBASE_CHANGELOG=changelog.yml" webdevops/liquibase:mysql update
+
 
 # Install API
 
@@ -43,10 +48,7 @@ cd src/api/
 docker build -t workshop-shoppingcart-api .
 
 ## Run container
-docker run --name workshop-shoppingcart-api
-\ -p 5001:5001
-\ -e ConnectionString="server=docker.for.mac.localhost;userid=root;password=1234;database=workshop_shoppingcart;convert zero datetime=True;CHARSET=utf8;" 
-\ workshop-shoppingcart-api
+docker run --name workshop-shoppingcart-api -p 5001:5001 -e ConnectionString="server=docker.for.mac.localhost;userid=root;password=1234;database=workshop_shoppingcart;convert zero datetime=True;CHARSET=utf8;" workshop-shoppingcart-api
 
 
 
@@ -61,6 +63,10 @@ docker build -t workshop-shoppingcart-ui .
 
 ## Run container
 docker run --name workshop-shoppingcart-ui -p 80:80 workshop-shoppingcart-ui
+
+# Run API Test
+cd tests/api.AcceptanceTest/
+newman run scenario-1.json
 
 # Run Robot Framework
 cd tests/ui.AcceptanceTest/
