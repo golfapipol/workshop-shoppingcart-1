@@ -85,7 +85,6 @@
                 $('#products .item').addClass('grid-group-item');
             });
             const search = (age = "", gender = "") => {
-                
                 let product_list_url = getApiURL("api/products/");
                 const params = {age, gender};
                 const inputsParams = Object.keys(params)
@@ -95,11 +94,14 @@
                 if (inputsParams.length > 0) {
                     product_list_url += `?${inputsParams.join("&")}`
                 }
-                
+                console.log(`product_list_url ${product_list_url}`)
                 $.ajax({
                     method: "GET",
                     url: product_list_url,
                     dataType: "json",
+                    error: (jqXHR, textStatus, error) => {
+                        console.error("error", jqXHR, textStatus, error)
+                    }
                 }).done(function (res) {
                     $('#products').html('');
                     $('#total').html(`${res.ProductsModel.length} toys found`)
@@ -134,7 +136,7 @@
                         )
                     });
 
-                });
+                })
 
             }
             $("#search-button").click((event) => {
