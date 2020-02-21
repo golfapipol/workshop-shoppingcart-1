@@ -1,0 +1,5 @@
+FROM webdevops/liquibase:mysql
+  
+COPY data/Production /liquibase/
+
+CMD ["update"]

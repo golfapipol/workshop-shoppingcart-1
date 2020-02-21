@@ -1,5 +1,5 @@
 #docker run -it -p 3306:3306 -v /Users/ifew/mysql_db:/var/lib/mysql --name mysql_db mysql_db
-FROM mysql:5.5 AS workshop-shoppingcart-mysql
+FROM mysql:5.7 AS workshop-shoppingcart-mysql
   
 WORKDIR /var/lib/mysql
 

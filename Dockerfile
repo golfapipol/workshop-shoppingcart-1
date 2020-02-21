@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk
+FROM mcr.microsoft.com/dotnet/core/sdk:2.1
 WORKDIR /app
 COPY ./ ./
 ADD run.api.test.sh .
