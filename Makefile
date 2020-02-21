@@ -21,7 +21,7 @@ db-migrate:
 	docker run --rm -e "LIQUIBASE_URL=jdbc:mysql://docker.for.mac.localhost/workshop_shoppingcart" -e "LIQUIBASE_USERNAME=root" -e "LIQUIBASE_PASSWORD=1234" -e "LIQUIBASE_CHANGELOG=data/changelog.yml" webdevops/liquibase:mysql update 
 
 run-acceptance:
-	pybot --variable URL:http://localhost tests/ui.AcceptanceTest/
+	robot --variable URL:http://localhost:8000 tests/ui.AcceptanceTest/
 
 clean:
 	echo "Y" | docker container prune
